@@ -1,0 +1,3254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALKAQuest</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef5ff;
+    color: #17243b;
+}
+
+/* HOME PAGE */
+
+#homeScreen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    text-align: center;
+    background: linear-gradient(135deg, #eaf4ff, #ffffff);
+}
+
+.logo {
+    width: 95px;
+    height: 95px;
+    margin-bottom: 12px;
+}
+
+.home-title {
+    font-size: clamp(40px, 7vw, 65px);
+    font-weight: 900;
+    color: #1765bb;
+    letter-spacing: 2px;
+}
+
+.home-subtitle {
+    margin-top: 8px;
+    margin-bottom: 40px;
+    color: #60748e;
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.mode-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 750px;
+}
+
+.mode-card {
+    width: 300px;
+    min-height: 190px;
+    border: 2px solid #d6e6fa;
+    border-radius: 22px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(26,89,158,.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 18px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.mode-card:hover {
+    transform: translateY(-7px);
+    border-color: #287bd1;
+    box-shadow: 0 15px 35px rgba(26,89,158,.18);
+}
+
+.mode-icon {
+    font-size: 48px;
+}
+
+.mode-card h2 {
+    font-size: 21px;
+    color: #1765bb;
+}
+
+/* GAME SCREEN */
+
+#gameScreen {
+    display: none;
+    min-height: 100vh;
+    padding: 16px;
+    background: #edf4ff;
+}
+
+.game-header {
+    width: 100%;
+    max-width: 1250px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(24,75,130,.08);
+}
+
+.game-header h2 {
+    color: #1765bb;
+    font-size: 22px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.info-box {
+    background: #e7f2ff;
+    color: #1765bb;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.timer-box.time-low {
+    background: #ffe1e1;
+    color: #c62828;
+    animation: timerPulse .7s infinite alternate;
+}
+
+@keyframes timerPulse {
+    to { transform: scale(1.05); }
+}
+
+.back-button {
+    border: none;
+    background: #e9eef5;
+    color: #26364d;
+    padding: 10px 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.game-content {
+    max-width: 1250px;
+    margin: 18px auto;
+}
+
+.game-title {
+    text-align: center;
+    margin: 15px 0 18px;
+    color: #1765bb;
+    font-size: 27px;
+}
+
+/* PROGRESSION BAR */
+
+.progress-panel {
+    background: white;
+    border-radius: 15px;
+    padding: 15px 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(24,75,130,.06);
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.progress-level {
+    font-size: 18px;
+    font-weight: 900;
+    color: #1765bb;
+}
+
+.progress-stage {
+    font-size: 13px;
+    color: #60748e;
+    font-weight: bold;
+}
+
+.progress-track {
+    height: 10px;
+    background: #e6eef8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #287bd1, #36b5e8);
+    border-radius: 20px;
+    transition: width .4s ease;
+}
+
+/* BUILD TARGET */
+
+.target-box {
+    text-align: center;
+    background: white;
+    padding: 16px;
+    border-radius: 15px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(24,75,130,.06);
+}
+
+.target-label {
+    font-size: 13px;
+    color: #78889b;
+    font-weight: bold;
+    margin-bottom: 7px;
+    letter-spacing: 1px;
+}
+
+.target-name {
+    color: #1765bb;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.target-formula {
+    color: #26364d;
+    font-size: 24px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* CIRCULAR ELEMENT PALETTE */
+
+.palette {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(24,75,130,.06);
+}
+
+.element-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+}
+
+.element-item:active {
+    cursor: grabbing;
+}
+
+.element-orb {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    border: 3px solid rgba(255,255,255,.9);
+    box-shadow:
+        inset -8px -9px 13px rgba(0,0,0,.25),
+        inset 5px 5px 12px rgba(255,255,255,.65),
+        0 6px 13px rgba(0,0,0,.17);
+    transition: transform .2s;
+}
+
+.element-item:hover .element-orb {
+    transform: scale(1.09);
+}
+
+.carbon {
+    background: radial-gradient(circle at 30% 25%, #7d8798, #343b49 65%, #151c29);
+    color: white;
+}
+
+.hydrogen {
+    background: radial-gradient(circle at 30% 25%, #ffffff, #e2e8f0 65%, #aeb9c8);
+    color: #273449;
+}
+
+.oxygen {
+    background: radial-gradient(circle at 30% 25%, #ff9292, #e53935 65%, #9d1717);
+    color: white;
+}
+
+.nitrogen {
+    background: radial-gradient(circle at 30% 25%, #91baff, #2878e5 65%, #123f91);
+    color: white;
+}
+
+.element-name {
+    font-size: 13px;
+    color: #53657d;
+    font-weight: bold;
+}
+
+/* DRAG PREVIEW */
+
+.drag-ghost {
+    position: fixed;
+    width: 68px;
+    height: 68px;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 900;
+    pointer-events: none;
+    z-index: 99999;
+    border: 3px solid white;
+    box-shadow:
+        inset -8px -9px 13px rgba(0,0,0,.25),
+        inset 5px 5px 12px rgba(255,255,255,.65),
+        0 10px 25px rgba(0,0,0,.35);
+    transform: translate(-50%, -50%);
+}
+
+/* 3D WORKSPACE */
+
+.scene-wrap {
+    position: relative;
+    width: 100%;
+    height: 430px;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 2px solid #263b59;
+    background: #0a1527;
+    box-shadow: 0 8px 24px rgba(7,24,48,.15);
+    touch-action: none;
+}
+
+#sceneCanvas,
+#sceneCanvas2 {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none;
+}
+
+#sceneCanvas:active,
+#sceneCanvas2:active {
+    cursor: grabbing;
+}
+
+/* CORRECT AND WRONG EFFECTS */
+
+.scene-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.scene-wrap.correct-effect::after {
+    background: radial-gradient(circle, rgba(40,255,130,.30), transparent 70%);
+    animation: greenFlash .8s ease;
+}
+
+.scene-wrap.wrong-effect {
+    animation: shake .4s ease;
+}
+
+.scene-wrap.wrong-effect::after {
+    background: radial-gradient(circle, rgba(255,50,50,.30), transparent 70%);
+    animation: redFlash .7s ease;
+}
+
+@keyframes greenFlash {
+    0% { opacity: 0; }
+    35% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes redFlash {
+    0% { opacity: 0; }
+    35% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+}
+
+/* FEEDBACK */
+
+.feedback {
+    min-height: 55px;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    background: white;
+    color: #60748e;
+}
+
+.feedback.correct {
+    background: #d8ffe6;
+    color: #087b37;
+    border: 2px solid #2ac66b;
+    animation: feedbackPop .35s ease;
+}
+
+.feedback.wrong {
+    background: #ffe0e0;
+    color: #b82020;
+    border: 2px solid #ee5555;
+    animation: feedbackPop .35s ease;
+}
+
+@keyframes feedbackPop {
+    0% { transform: scale(.94); }
+    70% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+/* BUTTONS */
+
+.controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.game-button {
+    border: none;
+    padding: 14px 23px;
+    border-radius: 11px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.game-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.07);
+}
+
+.check-button {
+    background: #1765bb;
+    color: white;
+}
+
+.undo-button {
+    background: #e0eafa;
+    color: #1765bb;
+}
+
+.clear-button {
+    background: #ffe3e3;
+    color: #c42d2d;
+}
+
+/* NAME MODE */
+
+.question-box {
+    background: white;
+    text-align: center;
+    padding: 16px;
+    border-radius: 15px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(24,75,130,.06);
+}
+
+.question-box h3 {
+    color: #1765bb;
+    font-size: 23px;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 13px;
+    margin-top: 17px;
+}
+
+.option-button {
+    padding: 17px;
+    min-height: 58px;
+    background: white;
+    border: 2px solid #d7e6f8;
+    border-radius: 13px;
+    color: #26364d;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.option-button:hover:not(:disabled) {
+    border-color: #1765bb;
+    background: #edf6ff;
+    transform: translateY(-2px);
+}
+
+.option-button:disabled {
+    cursor: not-allowed;
+    opacity: .9;
+}
+
+.option-button.right-answer {
+    background: #d8ffe6;
+    border-color: #20b75c;
+    color: #087b37;
+    animation: feedbackPop .35s ease;
+}
+
+.option-button.wrong-answer {
+    background: #ffe0e0;
+    border-color: #e64b4b;
+    color: #b82020;
+    animation: shake .4s ease;
+}
+
+/* =================================
+   LEVEL SCORE SUMMARY
+================================= */
+
+.level-result-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,18,38,.82);
+    backdrop-filter: blur(5px);
+    z-index: 200000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: overlayFade .4s ease forwards;
+}
+
+.level-result-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(145deg,#ffffff,#eaf4ff);
+    border: 2px solid #c5e1ff;
+    width: 100%;
+    max-width: 430px;
+    padding: 35px 25px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(40,130,230,.25);
+    animation: cardEntrance .65s cubic-bezier(.2,.9,.3,1.3);
+}
+
+.level-result-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    top: -100px;
+    right: -80px;
+    background: #a9d5ff;
+    border-radius: 50%;
+    opacity: .2;
+    animation: decorationFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes overlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes cardEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(.75);
+    }
+    70% {
+        transform: translateY(-8px) scale(1.04);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes decorationFloat {
+    from { transform: translate(0,0); }
+    to { transform: translate(-25px,25px); }
+}
+
+/* TROPHY */
+
+.result-icon {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    font-size: 65px;
+    margin-bottom: 12px;
+    animation: trophyJump 1.2s ease-in-out infinite;
+    filter: drop-shadow(0 5px 8px rgba(255,180,0,.35));
+}
+
+.result-icon::after {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border: 3px solid #8ac4ff;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    animation: trophyRing 1.5s ease-out infinite;
+    z-index: -1;
+}
+
+@keyframes trophyJump {
+    0%,100% { transform: translateY(0) rotate(0); }
+    30% { transform: translateY(-12px) rotate(-7deg); }
+    60% { transform: translateY(0) rotate(7deg); }
+}
+
+@keyframes trophyRing {
+    0% {
+        opacity: .8;
+        transform: translate(-50%,-50%) scale(.7);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%,-50%) scale(1.7);
+    }
+}
+
+.level-result-card h2 {
+    position: relative;
+    color: #1765bb;
+    font-size: 27px;
+    margin-bottom: 10px;
+    animation: titleAppear .7s ease .15s both;
+}
+
+@keyframes titleAppear {
+    from {
+        opacity: 0;
+        letter-spacing: -2px;
+    }
+    to {
+        opacity: 1;
+        letter-spacing: 0;
+    }
+}
+
+.result-description {
+    position: relative;
+    color: #60748e;
+    margin-bottom: 22px;
+}
+
+.result-score-box {
+    position: relative;
+    background: #eaf4ff;
+    border: 2px solid #c5e1ff;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 5px 20px rgba(23,101,187,.10);
+    animation: scoreEntrance .8s ease .2s both;
+}
+
+.result-score-label {
+    color: #60748e;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.result-score-number {
+    font-size: 38px;
+    font-weight: 900;
+    color: #1765bb;
+    margin-top: 8px;
+    animation: scoreGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes scoreEntrance {
+    from {
+        opacity: 0;
+        transform: scale(.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scoreGlow {
+    from {
+        text-shadow: 0 0 2px #287bd1;
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 0 0 14px #63aaff;
+        transform: scale(1.06);
+    }
+}
+
+.result-total {
+    position: relative;
+    color: #26364d;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 18px 0;
+}
+
+.continue-button {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #1765bb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    animation: continuePulse 1.6s infinite;
+}
+
+.continue-button:hover {
+    background: #0e4f98;
+}
+
+.continue-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        100deg,
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
+    );
+    animation: buttonShine 2.5s infinite;
+}
+
+@keyframes continuePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(23,101,187,.25); }
+    50% { box-shadow: 0 0 0 9px rgba(23,101,187,0); }
+}
+
+@keyframes buttonShine {
+    0% { left: -100%; }
+    50%,100% { left: 150%; }
+}
+
+/* LEVEL PARTICLES */
+
+.level-particle {
+    position: fixed;
+    left: 50%;
+    top: 43%;
+    width: 11px;
+    height: 15px;
+    border-radius: 3px;
+    z-index: 300000;
+    pointer-events: none;
+    animation: particleBurst 1.8s ease-out forwards;
+}
+
+@keyframes particleBurst {
+    0% {
+        opacity: 1;
+        transform: translate(0,0) rotate(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform:
+            translate(var(--dx),var(--dy))
+            rotate(800deg)
+            scale(.2);
+    }
+}
+
+/* REGULAR CONFETTI */
+
+.confetti-piece {
+    position: fixed;
+    top: -20px;
+    width: 10px;
+    height: 15px;
+    z-index: 100000;
+    pointer-events: none;
+    animation: confettiFall 1.5s linear forwards;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(110vh) rotate(760deg);
+        opacity: 0;
+    }
+}
+
+@media(max-width:650px) {
+    #gameScreen {
+        padding: 9px;
+    }
+
+    .scene-wrap {
+        height: 340px;
+    }
+
+    .element-orb {
+        width: 58px;
+        height: 58px;
+    }
+
+    .palette {
+        gap: 16px;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-button {
+        width: 100%;
+    }
+
+    .mode-card {
+        width: 100%;
+        max-width: 330px;
+    }
+
+    .home-subtitle {
+        font-size: 14px;
+    }
+
+    .level-result-card {
+        padding: 28px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME PAGE -->
+
+<section id="homeScreen">
+
+    <svg class="logo" viewBox="0 0 120 120">
+        <g fill="none" stroke="#287bd1" stroke-width="4">
+            <path d="M60 60 L28 30 L15 58 L42 91 L76 91 L103 59 L91 29 Z"/>
+            <path d="M28 30 L91 29 M42 91 L60 60 L76 91"/>
+        </g>
+        <g fill="#287bd1">
+            <circle cx="60" cy="60" r="10"/>
+            <circle cx="28" cy="30" r="7"/>
+            <circle cx="91" cy="29" r="7"/>
+            <circle cx="15" cy="58" r="7"/>
+            <circle cx="103" cy="59" r="7"/>
+            <circle cx="42" cy="91" r="7"/>
+            <circle cx="76" cy="91" r="7"/>
+        </g>
+    </svg>
+
+    <h1 class="home-title">ALKAQuest</h1>
+    <p class="home-subtitle">Explore. Build. Learn Chemistry.</p>
+
+    <div class="mode-container">
+
+        <div class="mode-card" onclick="startBuildMode()">
+            <div class="mode-icon">🧪</div>
+            <h2>BUILD AN ALKANE</h2>
+        </div>
+
+        <div class="mode-card" onclick="startNameMode()">
+            <div class="mode-icon">🧬</div>
+            <h2>NAME AN ALKANE</h2>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GAME SCREEN -->
+
+<section id="gameScreen">
+
+    <header class="game-header">
+
+        <h2>ALKAQuest</h2>
+
+        <div class="header-right">
+
+            <div class="info-box">
+                SCORE: <span id="scoreDisplay">0</span>
+            </div>
+
+            <div class="info-box">
+                LEVEL: <span id="levelDisplay">SIMPLE</span>
+            </div>
+
+            <div class="info-box timer-box" id="timerBox">
+                TIME: <span id="timerDisplay">120</span>s
+            </div>
+
+            <button class="back-button" onclick="backHome()">BACK</button>
+
+        </div>
+
+    </header>
+
+    <main class="game-content">
+
+        <div class="progress-panel">
+
+            <div class="progress-top">
+                <span class="progress-level" id="progressLevel">
+                    SIMPLE LEVEL
+                </span>
+
+                <span class="progress-stage" id="progressStage">
+                    Challenge 1 of 20
+                </span>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+        </div>
+
+
+        <!-- BUILD MODE -->
+
+        <section id="buildMode" style="display:none;">
+
+            <h2 class="game-title">BUILD AN ALKANE</h2>
+
+            <div class="target-box">
+
+                <div class="target-label">BUILD THIS MOLECULE</div>
+
+                <div class="target-name" id="buildTargetName">Methane</div>
+
+                <div class="target-formula" id="buildTargetFormula">
+                    CH<sub>4</sub>
+                </div>
+
+            </div>
+
+            <div class="palette">
+
+                <div class="element-item" data-element="C">
+                    <div class="element-orb carbon">C</div>
+                    <span class="element-name">Carbon</span>
+                </div>
+
+                <div class="element-item" data-element="H">
+                    <div class="element-orb hydrogen">H</div>
+                    <span class="element-name">Hydrogen</span>
+                </div>
+
+                <div class="element-item" data-element="O">
+                    <div class="element-orb oxygen">O</div>
+                    <span class="element-name">Oxygen</span>
+                </div>
+
+                <div class="element-item" data-element="N">
+                    <div class="element-orb nitrogen">N</div>
+                    <span class="element-name">Nitrogen</span>
+                </div>
+
+            </div>
+
+            <div class="scene-wrap" id="buildScene">
+                <canvas id="sceneCanvas"></canvas>
+            </div>
+
+            <div class="feedback" id="buildFeedback">
+                Drag the circular elements into the 3D workspace.
+            </div>
+
+            <div class="controls">
+
+                <button class="game-button check-button" onclick="checkBuild()">
+                    CHECK MOLECULE
+                </button>
+
+                <button class="game-button undo-button" onclick="undoAtom()">
+                    UNDO LAST ATOM
+                </button>
+
+                <button class="game-button clear-button" onclick="clearAtoms()">
+                    CLEAR WORKSPACE
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- NAME MODE -->
+
+        <section id="nameMode" style="display:none;">
+
+            <h2 class="game-title">NAME AN ALKANE</h2>
+
+            <div class="question-box">
+                <h3>What is the name of this molecule?</h3>
+            </div>
+
+            <div class="scene-wrap" id="nameScene">
+                <canvas id="sceneCanvas2"></canvas>
+            </div>
+
+            <div class="options-grid" id="nameOptions"></div>
+
+            <div class="feedback" id="nameFeedback">
+                Choose the correct name of the molecule.
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- LEVEL SCORE SUMMARY -->
+
+    <div id="levelResult" class="level-result-overlay">
+
+        <div class="level-result-card">
+
+            <div class="result-icon">🏆</div>
+
+            <h2 id="levelResultTitle">SIMPLE LEVEL COMPLETED!</h2>
+
+            <p class="result-description" id="levelResultDescription">
+                Congratulations! You completed this level.
+            </p>
+
+            <div class="result-score-box">
+
+                <div class="result-score-label">
+                    YOUR LEVEL SCORE
+                </div>
+
+                <div class="result-score-number" id="levelScoreDisplay">
+                    0 / 50
+                </div>
+
+            </div>
+
+            <div class="result-total">
+                TOTAL SCORE:
+                <span id="totalScoreDisplay">0</span>
+            </div>
+
+            <button
+                class="continue-button"
+                id="levelResultButton"
+                onclick="continueAfterLevel()">
+
+                CONTINUE
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+/* =========================================
+   ALKAQUEST CHALLENGE LIST
+========================================= */
+
+const challengeLevels = [
+
+    {
+        level: "SIMPLE",
+        time: 120,
+        challenges: [
+            { carbon: 1, name: "Methane", formula: "CH<sub>4</sub>", hydrogen: 4 },
+            { carbon: 2, name: "Ethane", formula: "C<sub>2</sub>H<sub>6</sub>", hydrogen: 6 },
+            { carbon: 3, name: "Propane", formula: "C<sub>3</sub>H<sub>8</sub>", hydrogen: 8 },
+            { carbon: 4, name: "Butane", formula: "C<sub>4</sub>H<sub>10</sub>", hydrogen: 10 },
+            { carbon: 5, name: "Pentane", formula: "C<sub>5</sub>H<sub>12</sub>", hydrogen: 12 }
+        ]
+    },
+
+    {
+        level: "MEDIUM",
+        time: 90,
+        challenges: [
+            { carbon: 6, name: "Hexane", formula: "C<sub>6</sub>H<sub>14</sub>", hydrogen: 14 },
+            { carbon: 7, name: "Heptane", formula: "C<sub>7</sub>H<sub>16</sub>", hydrogen: 16 },
+            { carbon: 8, name: "Octane", formula: "C<sub>8</sub>H<sub>18</sub>", hydrogen: 18 },
+            { carbon: 9, name: "Nonane", formula: "C<sub>9</sub>H<sub>20</sub>", hydrogen: 20 },
+            { carbon: 10, name: "Decane", formula: "C<sub>10</sub>H<sub>22</sub>", hydrogen: 22 }
+        ]
+    },
+
+    {
+        level: "HARD",
+        time: 60,
+        challenges: [
+            { carbon: 11, name: "Undecane", formula: "C<sub>11</sub>H<sub>24</sub>", hydrogen: 24 },
+            { carbon: 12, name: "Dodecane", formula: "C<sub>12</sub>H<sub>26</sub>", hydrogen: 26 },
+            { carbon: 13, name: "Tridecane", formula: "C<sub>13</sub>H<sub>28</sub>", hydrogen: 28 },
+            { carbon: 14, name: "Tetradecane", formula: "C<sub>14</sub>H<sub>30</sub>", hydrogen: 30 },
+            { carbon: 15, name: "Pentadecane", formula: "C<sub>15</sub>H<sub>32</sub>", hydrogen: 32 },
+            { carbon: 16, name: "Hexadecane", formula: "C<sub>16</sub>H<sub>34</sub>", hydrogen: 34 },
+            { carbon: 17, name: "Heptadecane", formula: "C<sub>17</sub>H<sub>36</sub>", hydrogen: 36 },
+            { carbon: 18, name: "Octadecane", formula: "C<sub>18</sub>H<sub>38</sub>", hydrogen: 38 },
+            { carbon: 19, name: "Nonadecane", formula: "C<sub>19</sub>H<sub>40</sub>", hydrogen: 40 },
+            { carbon: 20, name: "Eicosane", formula: "C<sub>20</sub>H<sub>42</sub>", hydrogen: 42 }
+        ]
+    }
+
+];
+
+const challenges = challengeLevels.flatMap(group =>
+    group.challenges.map(challenge => ({
+        ...challenge,
+        level: group.level,
+        time: group.time
+    }))
+);
+
+
+/* =========================================
+   GAME VARIABLES
+========================================= */
+
+let score = Number(localStorage.getItem("alkaquestScore") || 0);
+let levelScore = 0;
+
+let buildIndex = 0;
+let nameIndex = 0;
+
+let currentMode = "";
+let buildAtoms = [];
+let buildBonds = [];
+
+let scene;
+let camera;
+let renderer;
+
+let nameCamera;
+let nameRenderer;
+
+let activeGroup = null;
+
+let isRotating = false;
+let previousPointerX = 0;
+let previousPointerY = 0;
+
+let nextTimer = null;
+let timerInterval = null;
+
+let timeLeft = 120;
+let roundFinished = false;
+let resultIsFinal = false;
+
+let audioContext = null;
+
+const colors = {
+    C: 0x343b49,
+    H: 0xf5f5f5,
+    O: 0xe53935,
+    N: 0x2878e5
+};
+
+const atomSizes = {
+    C: 0.46,
+    H: 0.29,
+    O: 0.43,
+    N: 0.43
+};
+
+const elementNames = {
+    C: "Carbon",
+    H: "Hydrogen",
+    O: "Oxygen",
+    N: "Nitrogen"
+};
+
+
+/* =========================================
+   DIFFICULTY FUNCTIONS
+========================================= */
+
+function getDifficulty(index) {
+    return challenges[index]?.level || "COMPLETED";
+}
+
+function getTimeLimit(index) {
+    return challenges[index]?.time || 0;
+}
+
+function getLevelDescription(index) {
+    return getDifficulty(index) + " LEVEL";
+}
+
+
+/* =========================================
+   INITIALIZE 3D
+========================================= */
+
+function initialize3D() {
+
+    if (!window.THREE) {
+        alert("Three.js could not load. Check your internet connection.");
+        return;
+    }
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a1527);
+
+    camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+    camera.position.set(0, 0, 12);
+
+    renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("sceneCanvas"),
+        antialias: true
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x0a1527);
+
+    nameCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+    nameCamera.position.set(0, 0, 12);
+
+    nameRenderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("sceneCanvas2"),
+        antialias: true
+    });
+
+    nameRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    nameRenderer.setClearColor(0x0a1527);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x53617c, 1.5));
+
+    const mainLight = new THREE.DirectionalLight(0xffffff, 2.2);
+    mainLight.position.set(5, 7, 10);
+    scene.add(mainLight);
+
+    const blueLight = new THREE.PointLight(0x438cff, 1.1);
+    blueLight.position.set(-5, -3, 5);
+    scene.add(blueLight);
+
+    const greenLight = new THREE.PointLight(0x42d6a4, 0.6);
+    greenLight.position.set(3, 4, -5);
+    scene.add(greenLight);
+
+    resizeRenderer();
+    attachModelRotation();
+
+    window.addEventListener("resize", resizeRenderer);
+
+    animate3D();
+}
+
+
+/* =========================================
+   RESIZE CANVASES
+========================================= */
+
+function resizeRenderer() {
+
+    if (!renderer || !nameRenderer) return;
+
+    const buildWrap = document.getElementById("buildScene");
+
+    if (buildWrap.clientWidth > 0 && buildWrap.clientHeight > 0) {
+
+        renderer.setSize(
+            buildWrap.clientWidth,
+            buildWrap.clientHeight,
+            false
+        );
+
+        camera.aspect =
+            buildWrap.clientWidth / buildWrap.clientHeight;
+
+        camera.updateProjectionMatrix();
+    }
+
+    const nameWrap = document.getElementById("nameScene");
+
+    if (nameWrap.clientWidth > 0 && nameWrap.clientHeight > 0) {
+
+        nameRenderer.setSize(
+            nameWrap.clientWidth,
+            nameWrap.clientHeight,
+            false
+        );
+
+        nameCamera.aspect =
+            nameWrap.clientWidth / nameWrap.clientHeight;
+
+        nameCamera.updateProjectionMatrix();
+
+        if (currentMode === "name" && challenges[nameIndex]) {
+            fitNameCamera(challenges[nameIndex].carbon);
+        }
+    }
+}
+
+
+/* =========================================
+   FIT BUILD MOLECULE
+========================================= */
+
+function fitBuildCamera() {
+
+    if (!camera || !activeGroup) return;
+
+    if (buildAtoms.length === 0) {
+        activeGroup.position.set(0, 0, 0);
+        camera.position.set(0, 0, 12);
+        camera.lookAt(0, 0, 0);
+        return;
+    }
+
+    let minX = Infinity, minY = Infinity, minZ = Infinity;
+    let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
+
+    buildAtoms.forEach(atom => {
+
+        const p = atom.position;
+
+        minX = Math.min(minX, p.x);
+        minY = Math.min(minY, p.y);
+        minZ = Math.min(minZ, p.z);
+
+        maxX = Math.max(maxX, p.x);
+        maxY = Math.max(maxY, p.y);
+        maxZ = Math.max(maxZ, p.z);
+    });
+
+    const center = new THREE.Vector3(
+        (minX + maxX) / 2,
+        (minY + maxY) / 2,
+        (minZ + maxZ) / 2
+    );
+
+    activeGroup.position.copy(center).negate();
+
+    const size = new THREE.Vector3(
+        maxX - minX,
+        maxY - minY,
+        maxZ - minZ
+    );
+
+    const radius = Math.max(size.length() / 2 + 1.5, 2.5);
+
+    const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+
+    const verticalDistance = radius / Math.tan(halfFov);
+
+    const horizontalDistance =
+        radius / (Math.tan(halfFov) * Math.max(camera.aspect, 0.5));
+
+    const distance = Math.max(
+        12,
+        verticalDistance,
+        horizontalDistance
+    ) * 1.15;
+
+    camera.position.set(0, 0, distance);
+    camera.lookAt(0, 0, 0);
+}
+
+
+/* =========================================
+   FIT NAME MOLECULE
+========================================= */
+
+function fitNameCamera(carbonCount) {
+
+    if (!nameCamera) return;
+
+    const workspace = document.getElementById("nameScene");
+    const rect = workspace.getBoundingClientRect();
+
+    if (!rect.width || !rect.height) return;
+
+    const modelScale =
+        carbonCount >= 5 ? 0.82 :
+        carbonCount >= 3 ? 0.93 : 1;
+
+    const modelWidth =
+        ((carbonCount - 1) * 1.204 + 3.0) * modelScale;
+
+    const modelHeight = 5.5 * modelScale;
+
+    const halfFov = THREE.MathUtils.degToRad(nameCamera.fov / 2);
+
+    const distanceHorizontal =
+        modelWidth /
+        (2 * Math.tan(halfFov) * Math.max(nameCamera.aspect, 0.5));
+
+    const distanceVertical =
+        modelHeight / (2 * Math.tan(halfFov));
+
+    const distance = Math.max(
+        12,
+        distanceHorizontal,
+        distanceVertical
+    ) * 1.2;
+
+    nameCamera.position.set(0, 0, distance);
+    nameCamera.lookAt(0, 0, 0);
+}
+
+
+/* =========================================
+   3D ANIMATION
+========================================= */
+
+function animate3D() {
+
+    requestAnimationFrame(animate3D);
+
+    if (activeGroup && !isRotating) {
+        activeGroup.rotation.y += 0.004;
+    }
+
+    if (renderer && camera) {
+        renderer.render(scene, camera);
+    }
+
+    if (nameRenderer && nameCamera) {
+        nameRenderer.render(scene, nameCamera);
+    }
+}
+
+
+/* =========================================
+   MOUSE AND TOUCH ROTATION
+========================================= */
+
+function attachModelRotation() {
+
+    const canvases = [
+        document.getElementById("sceneCanvas"),
+        document.getElementById("sceneCanvas2")
+    ];
+
+    canvases.forEach(canvas => {
+
+        canvas.addEventListener("pointerdown", function(e) {
+
+            if (!activeGroup) return;
+
+            isRotating = true;
+            previousPointerX = e.clientX;
+            previousPointerY = e.clientY;
+
+            canvas.setPointerCapture(e.pointerId);
+        });
+
+        canvas.addEventListener("pointermove", function(e) {
+
+            if (!isRotating || !activeGroup) return;
+
+            const moveX = e.clientX - previousPointerX;
+            const moveY = e.clientY - previousPointerY;
+
+            activeGroup.rotation.y += moveX * 0.009;
+            activeGroup.rotation.x += moveY * 0.009;
+
+            previousPointerX = e.clientX;
+            previousPointerY = e.clientY;
+        });
+
+        function stopRotation() {
+            isRotating = false;
+        }
+
+        canvas.addEventListener("pointerup", stopRotation);
+        canvas.addEventListener("pointercancel", stopRotation);
+        canvas.addEventListener("lostpointercapture", stopRotation);
+    });
+}
+
+
+/* =========================================
+   CREATE 3D ATOM
+========================================= */
+
+function createAtom(type, position) {
+
+    const atomGroup = new THREE.Group();
+
+    const geometry = new THREE.SphereGeometry(
+        atomSizes[type],
+        40,
+        40
+    );
+
+    const material = new THREE.MeshStandardMaterial({
+        color: colors[type],
+        roughness: 0.27,
+        metalness: 0.05
+    });
+
+    atomGroup.add(new THREE.Mesh(geometry, material));
+    atomGroup.add(makeAtomLabel(type));
+
+    atomGroup.position.copy(position);
+
+    return atomGroup;
+}
+
+
+/* ATOM LABEL */
+
+function makeAtomLabel(type) {
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = 128;
+    canvas.height = 128;
+
+    const context = canvas.getContext("2d");
+
+    context.fillStyle =
+        type === "H" ? "#222b38" : "#ffffff";
+
+    context.font = "bold 76px Arial";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(type, 64, 67);
+
+    const texture = new THREE.CanvasTexture(canvas);
+
+    const material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        depthWrite: false
+    });
+
+    const sprite = new THREE.Sprite(material);
+    sprite.scale.set(0.43, 0.43, 0.43);
+
+    return sprite;
+}
+
+
+/* =========================================
+   CREATE CONNECTING BOND
+========================================= */
+
+function createBond(start, end, parent, startType = "C", endType = "C") {
+
+    const direction = new THREE.Vector3().subVectors(end, start);
+    const distance = direction.length();
+
+    if (distance < 0.001) return null;
+
+    direction.normalize();
+
+    const startRadius = (atomSizes[startType] || 0.38) * 0.85;
+    const endRadius = (atomSizes[endType] || 0.38) * 0.85;
+
+    const bondStart = start.clone().addScaledVector(
+        direction,
+        startRadius
+    );
+
+    const bondEnd = end.clone().addScaledVector(
+        direction,
+        -endRadius
+    );
+
+    const bondDirection = new THREE.Vector3().subVectors(
+        bondEnd,
+        bondStart
+    );
+
+    const bondLength = bondDirection.length();
+
+    if (bondLength < 0.05) return null;
+
+    const geometry = new THREE.CylinderGeometry(
+        0.085,
+        0.085,
+        bondLength,
+        20
+    );
+
+    const material = new THREE.MeshStandardMaterial({
+        color: 0xc7d6e8,
+        roughness: 0.3,
+        metalness: 0.15
+    });
+
+    const bond = new THREE.Mesh(geometry, material);
+
+    bond.position.copy(bondStart).add(bondEnd).multiplyScalar(0.5);
+
+    bond.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0, 1, 0),
+        bondDirection.normalize()
+    );
+
+    parent.add(bond);
+
+    return bond;
+}
+
+
+/* =========================================
+   ACTIVE MODEL
+========================================= */
+
+function setActiveGroup(group) {
+
+    if (activeGroup && scene) {
+        scene.remove(activeGroup);
+    }
+
+    activeGroup = group;
+
+    if (activeGroup && scene) {
+        activeGroup.rotation.set(0, 0, 0);
+        activeGroup.position.set(0, 0, 0);
+        scene.add(activeGroup);
+    }
+}
+
+
+/* =========================================
+   START BUILD MODE
+========================================= */
+
+function startBuildMode() {
+
+    clearTimeout(nextTimer);
+    stopTimer();
+
+    levelScore = 0;
+    currentMode = "build";
+    buildIndex = 0;
+    roundFinished = false;
+
+    document.getElementById("levelResult").style.display = "none";
+    document.getElementById("homeScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+
+    document.getElementById("buildMode").style.display = "block";
+    document.getElementById("nameMode").style.display = "none";
+
+    setActiveGroup(new THREE.Group());
+
+    buildAtoms = [];
+    buildBonds = [];
+
+    loadBuildChallenge();
+
+    setTimeout(resizeRenderer, 150);
+}
+
+
+/* =========================================
+   LOAD BUILD CHALLENGE
+========================================= */
+
+function loadBuildChallenge() {
+
+    if (buildIndex >= challenges.length) {
+        finishGame();
+        return;
+    }
+
+    roundFinished = false;
+
+    const challenge = challenges[buildIndex];
+
+    document.getElementById("buildTargetName").textContent =
+        challenge.name;
+
+    document.getElementById("buildTargetFormula").innerHTML =
+        formulaHTML(challenge);
+
+    updateProgress(buildIndex);
+
+    clearAtoms();
+    fitBuildCamera();
+
+    document.getElementById("buildScene")
+        .classList.remove("correct-effect", "wrong-effect");
+
+    setFeedback(
+        "Drag the circular elements into the 3D workspace.",
+        "",
+        "buildFeedback"
+    );
+
+    startTimer(buildIndex);
+}
+
+
+/* =========================================
+   FORMULA
+========================================= */
+
+function formulaHTML(challenge) {
+    return challenge.formula;
+}
+
+
+/* =========================================
+   UPDATE PROGRESS
+========================================= */
+
+function updateProgress(index) {
+
+    const total = challenges.length;
+
+    document.getElementById("levelDisplay").textContent =
+        getDifficulty(index);
+
+    document.getElementById("progressLevel").textContent =
+        getLevelDescription(index);
+
+    document.getElementById("progressStage").textContent =
+        "Challenge " + (index + 1) + " of " + total;
+
+    document.getElementById("progressFill").style.width =
+        ((index + 1) / total * 100) + "%";
+}
+
+
+/* =========================================
+   ELEMENT DRAGGING
+========================================= */
+
+document.querySelectorAll(".element-item").forEach(item => {
+
+    item.addEventListener("pointerdown", function(e) {
+
+        if (currentMode !== "build" || roundFinished) return;
+
+        e.preventDefault();
+
+        beginAtomDrag(
+            item.dataset.element,
+            e.clientX,
+            e.clientY
+        );
+    });
+});
+
+
+function beginAtomDrag(type, x, y) {
+
+    const ghost = document.createElement("div");
+
+    ghost.className =
+        "drag-ghost " +
+        (
+            type === "C" ? "carbon" :
+            type === "H" ? "hydrogen" :
+            type === "O" ? "oxygen" :
+            "nitrogen"
+        );
+
+    ghost.textContent = type;
+
+    document.body.appendChild(ghost);
+
+    moveGhost(x, y);
+
+    function moveGhost(clientX, clientY) {
+        ghost.style.left = clientX + "px";
+        ghost.style.top = clientY + "px";
+    }
+
+    function moveHandler(e) {
+        moveGhost(e.clientX, e.clientY);
+    }
+
+    function upHandler(e) {
+
+        const dropX = e.clientX;
+        const dropY = e.clientY;
+
+        ghost.remove();
+
+        window.removeEventListener("pointermove", moveHandler);
+        window.removeEventListener("pointerup", upHandler);
+        window.removeEventListener("pointercancel", cancelHandler);
+
+        const workspace = document.getElementById("buildScene");
+        const rect = workspace.getBoundingClientRect();
+
+        const inside =
+            dropX >= rect.left &&
+            dropX <= rect.right &&
+            dropY >= rect.top &&
+            dropY <= rect.bottom;
+
+        if (inside && currentMode === "build" && !roundFinished) {
+            addBuildAtom(
+                type,
+                screenToWorld(dropX, dropY, rect)
+            );
+        }
+    }
+
+    function cancelHandler() {
+
+        ghost.remove();
+
+        window.removeEventListener("pointermove", moveHandler);
+        window.removeEventListener("pointerup", upHandler);
+        window.removeEventListener("pointercancel", cancelHandler);
+    }
+
+    window.addEventListener("pointermove", moveHandler);
+    window.addEventListener("pointerup", upHandler);
+    window.addEventListener("pointercancel", cancelHandler);
+}
+
+
+/* CONVERT DROP POSITION TO 3D POSITION */
+
+function screenToWorld(x, y, rect) {
+
+    const ndcX = ((x - rect.left) / rect.width) * 2 - 1;
+    const ndcY = -((y - rect.top) / rect.height) * 2 + 1;
+
+    const raycaster = new THREE.Raycaster();
+
+    raycaster.setFromCamera(
+        new THREE.Vector2(ndcX, ndcY),
+        camera
+    );
+
+    const plane = new THREE.Plane(
+        new THREE.Vector3(0, 0, 1),
+        0
+    );
+
+    const worldPoint = new THREE.Vector3();
+
+    raycaster.ray.intersectPlane(plane, worldPoint);
+
+    return worldPoint;
+}
+
+
+/* =========================================
+   BOND DISTANCE
+========================================= */
+
+function idealBondLength(type1, type2) {
+
+    const pair = [type1, type2].sort().join("");
+
+    const distances = {
+        "CC": 1.55,
+        "CH": 1.20,
+        "HH": 0.95,
+        "CO": 1.48,
+        "CN": 1.48,
+        "HO": 1.10,
+        "HN": 1.10,
+        "NO": 1.45,
+        "NN": 1.50,
+        "OO": 1.50
+    };
+
+    return distances[pair] || 1.35;
+}
+
+
+/* =========================================
+   CHOOSE CONNECTION DIRECTION
+========================================= */
+
+function chooseConnectionDirection(parentAtom, desiredDirection) {
+
+    let desired = desiredDirection.clone();
+
+    if (desired.length() < 0.001) {
+        desired.set(1, 0, 0);
+    }
+
+    desired.normalize();
+
+    const occupied = parentAtom.directions || [];
+
+    if (occupied.length === 0) {
+        return desired;
+    }
+
+    const candidates = [desired.clone()];
+
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let i = 0; i < 64; i++) {
+
+        const y = 1 - (2 * (i + 0.5) / 64);
+        const radius = Math.sqrt(1 - y * y);
+        const angle = goldenAngle * i;
+
+        candidates.push(
+            new THREE.Vector3(
+                Math.cos(angle) * radius,
+                y,
+                Math.sin(angle) * radius
+            )
+        );
+    }
+
+    let bestDirection = candidates[0];
+    let bestScore = -Infinity;
+
+    candidates.forEach(candidate => {
+
+        const alignment = candidate.dot(desired);
+
+        let closestExisting = -1;
+
+        occupied.forEach(usedDirection => {
+
+            const dot = candidate.dot(usedDirection);
+
+            if (dot > closestExisting) {
+                closestExisting = dot;
+            }
+        });
+
+        const spacingScore = 1 - closestExisting;
+
+        const totalScore =
+            alignment * 0.55 + spacingScore * 0.45;
+
+        if (totalScore > bestScore) {
+            bestScore = totalScore;
+            bestDirection = candidate;
+        }
+    });
+
+    return bestDirection.clone().normalize();
+}
+
+
+/* =========================================
+   FIND AVAILABLE CARBON
+========================================= */
+
+function findParentAtom(desiredPosition) {
+
+    if (buildAtoms.length === 0) return null;
+
+    const availableParents = buildAtoms.filter(atom => {
+
+        return atom.type === "C" &&
+            atom.directions.length < 4;
+
+    });
+
+    if (availableParents.length === 0) {
+        return null;
+    }
+
+    let nearestAtom = availableParents[0];
+    let nearestDistance = Infinity;
+
+    availableParents.forEach(atom => {
+
+        const distance = desiredPosition.distanceTo(atom.position);
+
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestAtom = atom;
+        }
+    });
+
+    return nearestAtom;
+}
+
+
+/* =========================================
+   ADD BUILD ATOM
+========================================= */
+
+function addBuildAtom(type, worldPosition) {
+
+    if (!activeGroup || roundFinished) return;
+
+    let position;
+    let parentAtom = null;
+    let bond = null;
+    let connectionDirection = null;
+
+    if (buildAtoms.length === 0) {
+
+        if (type !== "C") {
+            setFeedback(
+                "Start by adding a Carbon atom.",
+                "wrong",
+                "buildFeedback"
+            );
+            playWrongSound();
+            return;
+        }
+
+        position = new THREE.Vector3(0, 0, 0);
+
+    } else {
+
+        activeGroup.updateMatrixWorld(true);
+
+        const inverseMatrix = new THREE.Matrix4()
+            .copy(activeGroup.matrixWorld)
+            .invert();
+
+        const desiredPosition = worldPosition.clone();
+
+        desiredPosition.applyMatrix4(inverseMatrix);
+
+        parentAtom = findParentAtom(desiredPosition);
+
+        if (!parentAtom) {
+
+            setFeedback(
+                "No available Carbon connection. Try undoing an atom.",
+                "wrong",
+                "buildFeedback"
+            );
+
+            playWrongSound();
+            return;
+        }
+
+        let desiredDirection = new THREE.Vector3().subVectors(
+            desiredPosition,
+            parentAtom.position
+        );
+
+        if (desiredDirection.length() < 0.15) {
+
+            const angle = buildAtoms.length * 2.399;
+
+            desiredDirection.set(
+                Math.cos(angle),
+                Math.sin(angle),
+                Math.sin(angle * 0.7) * 0.45
+            );
+        }
+
+        connectionDirection = chooseConnectionDirection(
+            parentAtom,
+            desiredDirection
+        );
+
+        const distance = idealBondLength(
+            parentAtom.type,
+            type
+        );
+
+        position = parentAtom.position.clone().addScaledVector(
+            connectionDirection,
+            distance
+        );
+    }
+
+    const atomObject = createAtom(type, position);
+
+    if (parentAtom) {
+
+        bond = createBond(
+            parentAtom.position,
+            position,
+            activeGroup,
+            parentAtom.type,
+            type
+        );
+
+        if (bond) {
+            buildBonds.push(bond);
+        }
+
+        parentAtom.directions.push(
+            connectionDirection.clone()
+        );
+    }
+
+    activeGroup.add(atomObject);
+
+    buildAtoms.push({
+        type: type,
+        position: position.clone(),
+        object: atomObject,
+        parentAtom: parentAtom,
+        bond: bond,
+        directions: parentAtom
+            ? [connectionDirection.clone().negate()]
+            : []
+    });
+
+    fitBuildCamera();
+
+    setFeedback(
+        elementNames[type] + " connected successfully!",
+        "",
+        "buildFeedback"
+    );
+}
+
+
+/* =========================================
+   UNDO LAST ATOM
+========================================= */
+
+function undoAtom() {
+
+    if (buildAtoms.length === 0 || roundFinished) return;
+
+    const lastAtom = buildAtoms.pop();
+
+    activeGroup.remove(lastAtom.object);
+
+    if (lastAtom.bond) {
+
+        activeGroup.remove(lastAtom.bond);
+
+        const bondIndex = buildBonds.indexOf(lastAtom.bond);
+
+        if (bondIndex !== -1) {
+            buildBonds.splice(bondIndex, 1);
+        }
+    }
+
+    if (lastAtom.parentAtom) {
+
+        const parentDirections = lastAtom.parentAtom.directions;
+
+        if (parentDirections.length > 0) {
+            parentDirections.pop();
+        }
+    }
+
+    fitBuildCamera();
+
+    setFeedback(
+        "Last atom removed.",
+        "",
+        "buildFeedback"
+    );
+}
+
+
+/* =========================================
+   CLEAR WORKSPACE
+========================================= */
+
+function clearAtoms() {
+
+    if (!activeGroup) return;
+
+    buildAtoms.forEach(atom => {
+        activeGroup.remove(atom.object);
+    });
+
+    buildBonds.forEach(bond => {
+        activeGroup.remove(bond);
+    });
+
+    buildAtoms = [];
+    buildBonds = [];
+
+    activeGroup.position.set(0, 0, 0);
+
+    fitBuildCamera();
+}
+
+
+/* =========================================
+   CHECK BUILD
+========================================= */
+
+function checkBuild() {
+
+    if (roundFinished) return;
+
+    const challenge = challenges[buildIndex];
+
+    let carbonCount = 0;
+    let hydrogenCount = 0;
+    let oxygenCount = 0;
+    let nitrogenCount = 0;
+
+    buildAtoms.forEach(atom => {
+
+        if (atom.type === "C") carbonCount++;
+        if (atom.type === "H") hydrogenCount++;
+        if (atom.type === "O") oxygenCount++;
+        if (atom.type === "N") nitrogenCount++;
+
+    });
+
+    const validValence = buildAtoms.every(atom => {
+
+        if (atom.type === "C") {
+            return atom.directions.length === 4;
+        }
+
+        if (atom.type === "H") {
+            return atom.directions.length === 1;
+        }
+
+        return false;
+    });
+
+    const correct =
+        carbonCount === challenge.carbon &&
+        hydrogenCount === challenge.hydrogen &&
+        oxygenCount === 0 &&
+        nitrogenCount === 0 &&
+        validValence;
+
+    if (correct) {
+
+        roundFinished = true;
+        stopTimer();
+
+        score += 10;
+        levelScore += 10;
+
+        updateScore();
+
+        setFeedback(
+            "CORRECT! You built " + challenge.name + "! +10 POINTS",
+            "correct",
+            "buildFeedback"
+        );
+
+        playCorrectSound();
+        showConfetti();
+
+        const workspace = document.getElementById("buildScene");
+
+        workspace.classList.remove("wrong-effect");
+        workspace.classList.add("correct-effect");
+
+        nextTimer = setTimeout(function() {
+            advanceToNextChallenge();
+        }, 1900);
+
+    } else {
+
+        setFeedback(
+            "WRONG! Check your Carbon and Hydrogen atoms and connections.",
+            "wrong",
+            "buildFeedback"
+        );
+
+        playWrongSound();
+
+        const workspace = document.getElementById("buildScene");
+
+        workspace.classList.remove("correct-effect");
+        workspace.classList.remove("wrong-effect");
+
+        void workspace.offsetWidth;
+
+        workspace.classList.add("wrong-effect");
+    }
+}
+
+
+/* =========================================
+   START NAME MODE
+========================================= */
+
+function startNameMode() {
+
+    clearTimeout(nextTimer);
+    stopTimer();
+
+    levelScore = 0;
+    currentMode = "name";
+    nameIndex = 0;
+    roundFinished = false;
+
+    document.getElementById("levelResult").style.display = "none";
+    document.getElementById("homeScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+
+    document.getElementById("buildMode").style.display = "none";
+    document.getElementById("nameMode").style.display = "block";
+
+    loadNameChallenge();
+
+    setTimeout(resizeRenderer, 150);
+}
+
+
+/* =========================================
+   LOAD NAME CHALLENGE
+========================================= */
+
+function loadNameChallenge() {
+
+    if (nameIndex >= challenges.length) {
+        finishGame();
+        return;
+    }
+
+    roundFinished = false;
+
+    const challenge = challenges[nameIndex];
+
+    const molecule = createMoleculeModel(challenge.carbon);
+
+    setActiveGroup(molecule);
+
+    createNameOptions();
+
+    setFeedback(
+        "Choose the correct name of the molecule.",
+        "",
+        "nameFeedback"
+    );
+
+    document.getElementById("nameScene")
+        .classList.remove("correct-effect", "wrong-effect");
+
+    updateProgress(nameIndex);
+
+    setTimeout(function() {
+        resizeRenderer();
+        fitNameCamera(challenge.carbon);
+    }, 50);
+
+    startTimer(nameIndex);
+}
+
+
+/* =========================================
+   CREATE 3D MOLECULE
+========================================= */
+
+function createMoleculeModel(carbonCount) {
+
+    const group = new THREE.Group();
+
+    const carbonPositions = [];
+
+    const spacingX = 1.204;
+    const spacingY = 0.812;
+
+    for (let i = 0; i < carbonCount; i++) {
+
+        const x =
+            (i - (carbonCount - 1) / 2) * spacingX;
+
+        const y = (i % 2 === 0) ? 0 : spacingY;
+
+        carbonPositions.push(
+            new THREE.Vector3(x, y, 0)
+        );
+    }
+
+    /* CARBON ATOMS AND BONDS */
+
+    for (let i = 0; i < carbonCount; i++) {
+
+        const carbon = carbonPositions[i];
+
+        group.add(createAtom("C", carbon));
+
+        if (i < carbonCount - 1) {
+
+            createBond(
+                carbon,
+                carbonPositions[i + 1],
+                group,
+                "C",
+                "C"
+            );
+        }
+    }
+
+    /* HYDROGEN ATOMS AND BONDS */
+
+    for (let i = 0; i < carbonCount; i++) {
+
+        const carbon = carbonPositions[i];
+
+        const directions = getHydrogenDirections(
+            i,
+            carbonPositions
+        );
+
+        directions.forEach(direction => {
+
+            const hydrogenPosition = carbon.clone().add(
+                direction.multiplyScalar(1.08)
+            );
+
+            group.add(createAtom("H", hydrogenPosition));
+
+            createBond(
+                carbon,
+                hydrogenPosition,
+                group,
+                "C",
+                "H"
+            );
+        });
+    }
+
+    if (carbonCount >= 5) {
+        group.scale.setScalar(0.82);
+    } else if (carbonCount >= 3) {
+        group.scale.setScalar(0.93);
+    }
+
+    return group;
+}
+
+
+/* =========================================
+   HYDROGEN POSITIONS
+========================================= */
+
+function getHydrogenDirections(index, positions) {
+
+    const count = positions.length;
+    const current = positions[index];
+
+    const neighborDirections = [];
+
+    if (index > 0) {
+
+        neighborDirections.push(
+            positions[index - 1].clone()
+                .sub(current)
+                .normalize()
+        );
+    }
+
+    if (index < count - 1) {
+
+        neighborDirections.push(
+            positions[index + 1].clone()
+                .sub(current)
+                .normalize()
+        );
+    }
+
+    if (neighborDirections.length === 0) {
+
+        return [
+            new THREE.Vector3(1, 1, 1).normalize(),
+            new THREE.Vector3(1, -1, -1).normalize(),
+            new THREE.Vector3(-1, 1, -1).normalize(),
+            new THREE.Vector3(-1, -1, 1).normalize()
+        ];
+    }
+
+    if (neighborDirections.length === 1) {
+
+        const bondDirection = neighborDirections[0];
+
+        let reference = new THREE.Vector3(0, 1, 0);
+
+        if (Math.abs(bondDirection.dot(reference)) > 0.9) {
+            reference.set(0, 0, 1);
+        }
+
+        const u = new THREE.Vector3()
+            .crossVectors(bondDirection, reference)
+            .normalize();
+
+        const v = new THREE.Vector3()
+            .crossVectors(bondDirection, u)
+            .normalize();
+
+        const result = [];
+
+        for (let i = 0; i < 3; i++) {
+
+            const angle = i * (Math.PI * 2 / 3);
+
+            const side = u.clone()
+                .multiplyScalar(Math.cos(angle))
+                .add(
+                    v.clone().multiplyScalar(Math.sin(angle))
+                )
+                .multiplyScalar(Math.sqrt(8 / 9));
+
+            const direction = bondDirection.clone()
+                .multiplyScalar(-1 / 3)
+                .add(side)
+                .normalize();
+
+            result.push(direction);
+        }
+
+        return result;
+    }
+
+    const b1 = neighborDirections[0];
+    const b2 = neighborDirections[1];
+
+    const sum = b1.clone().add(b2);
+
+    if (sum.length() < 0.001) {
+
+        return [
+            new THREE.Vector3(0, 1, 0),
+            new THREE.Vector3(0, -1, 0)
+        ];
+    }
+
+    const axis = sum.clone().normalize();
+
+    const axialPart = -2 / (3 * sum.length());
+
+    const perpendicularSize = Math.sqrt(
+        Math.max(0, 1 - axialPart * axialPart)
+    );
+
+    const sideAxis = new THREE.Vector3()
+        .crossVectors(b1, b2)
+        .normalize();
+
+    if (sideAxis.length() < 0.001) {
+        sideAxis.set(0, 0, 1);
+    }
+
+    const first = axis.clone()
+        .multiplyScalar(axialPart)
+        .add(
+            sideAxis.clone().multiplyScalar(perpendicularSize)
+        )
+        .normalize();
+
+    const second = axis.clone()
+        .multiplyScalar(axialPart)
+        .add(
+            sideAxis.clone().multiplyScalar(-perpendicularSize)
+        )
+        .normalize();
+
+    return [first, second];
+}
+
+
+/* =========================================
+   NAME OPTIONS
+========================================= */
+
+function createNameOptions() {
+
+    const currentChallenge = challenges[nameIndex];
+
+    const currentLevel = challengeLevels.find(
+        group => group.level === currentChallenge.level
+    );
+
+    const correctName = currentChallenge.name;
+
+    const names = currentLevel.challenges.map(
+        challenge => challenge.name
+    );
+
+    let choices = [correctName];
+
+    while (choices.length < Math.min(4, names.length)) {
+
+        const randomName =
+            names[Math.floor(Math.random() * names.length)];
+
+        if (!choices.includes(randomName)) {
+            choices.push(randomName);
+        }
+    }
+
+    choices.sort(() => Math.random() - 0.5);
+
+    const container = document.getElementById("nameOptions");
+
+    container.innerHTML = "";
+
+    const letters = ["A", "B", "C", "D"];
+
+    choices.forEach((choice, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "option-button";
+        button.dataset.answer = choice;
+
+        button.textContent =
+            letters[index] + ". " + choice;
+
+        button.addEventListener("click", function() {
+
+            checkNameAnswer(choice, button, container);
+
+        });
+
+        container.appendChild(button);
+    });
+}
+
+
+/* =========================================
+   CHECK NAME ANSWER
+========================================= */
+
+function checkNameAnswer(choice, selectedButton, container) {
+
+    if (roundFinished) return;
+
+    roundFinished = true;
+    stopTimer();
+
+    const correctName = challenges[nameIndex].name;
+
+    const buttons = container.querySelectorAll(".option-button");
+
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+    if (choice === correctName) {
+
+        score += 10;
+        levelScore += 10;
+
+        updateScore();
+
+        selectedButton.classList.add("right-answer");
+
+        setFeedback(
+            "CORRECT! The molecule is " + correctName + "! +10 POINTS",
+            "correct",
+            "nameFeedback"
+        );
+
+        playCorrectSound();
+        showConfetti();
+
+        const workspace = document.getElementById("nameScene");
+
+        workspace.classList.remove("wrong-effect");
+        workspace.classList.add("correct-effect");
+
+    } else {
+
+        selectedButton.classList.add("wrong-answer");
+
+        buttons.forEach(button => {
+
+            if (button.dataset.answer === correctName) {
+                button.classList.add("right-answer");
+            }
+
+        });
+
+        setFeedback(
+            "WRONG! The correct answer is " + correctName + ".",
+            "wrong",
+            "nameFeedback"
+        );
+
+        playWrongSound();
+
+        const workspace = document.getElementById("nameScene");
+
+        workspace.classList.remove("correct-effect");
+        workspace.classList.remove("wrong-effect");
+
+        void workspace.offsetWidth;
+
+        workspace.classList.add("wrong-effect");
+    }
+
+    nextTimer = setTimeout(function() {
+        advanceToNextChallenge();
+    }, 2200);
+}
+
+
+/* =========================================
+   TIMER
+========================================= */
+
+function startTimer(index) {
+
+    stopTimer();
+
+    timeLeft = getTimeLimit(index);
+
+    updateTimerDisplay();
+
+    timerInterval = setInterval(function() {
+
+        if (roundFinished) {
+            stopTimer();
+            return;
+        }
+
+        timeLeft--;
+
+        updateTimerDisplay();
+
+        if (timeLeft <= 0) {
+            timeUp();
+        }
+
+    }, 1000);
+}
+
+
+function stopTimer() {
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+
+function updateTimerDisplay() {
+
+    document.getElementById("timerDisplay").textContent =
+        Math.max(0, timeLeft);
+
+    const timerBox = document.getElementById("timerBox");
+
+    if (timeLeft <= 10) {
+        timerBox.classList.add("time-low");
+    } else {
+        timerBox.classList.remove("time-low");
+    }
+}
+
+
+/* =========================================
+   TIME UP
+========================================= */
+
+function timeUp() {
+
+    if (roundFinished) return;
+
+    roundFinished = true;
+    stopTimer();
+
+    playWrongSound();
+
+    const feedbackId =
+        currentMode === "build"
+            ? "buildFeedback"
+            : "nameFeedback";
+
+    setFeedback(
+        "TIME'S UP! Moving to the next molecule.",
+        "wrong",
+        feedbackId
+    );
+
+    nextTimer = setTimeout(function() {
+        advanceToNextChallenge();
+    }, 1800);
+}
+
+
+/* =========================================
+   MOVE TO NEXT CHALLENGE OR LEVEL
+========================================= */
+
+function advanceToNextChallenge() {
+
+    const currentIndex =
+        currentMode === "build" ? buildIndex : nameIndex;
+
+    const nextIndex = currentIndex + 1;
+
+    // All 20 challenges have been completed.
+    if (nextIndex >= challenges.length) {
+        showLevelResult("HARD", true);
+        return;
+    }
+
+    const currentLevel = challenges[currentIndex].level;
+    const nextLevel = challenges[nextIndex].level;
+
+    if (currentMode === "build") {
+        buildIndex = nextIndex;
+    } else {
+        nameIndex = nextIndex;
+    }
+
+    // Show score summary when moving to the next difficulty.
+    if (currentLevel !== nextLevel) {
+        showLevelResult(currentLevel, false);
+        return;
+    }
+
+    // Continue to the next challenge in the same level.
+    if (currentMode === "build") {
+        loadBuildChallenge();
+    } else {
+        loadNameChallenge();
+    }
+}
+
+
+/* =========================================
+   SHOW LEVEL PARTICLES
+========================================= */
+
+function showLevelConfetti() {
+
+    const colors = [
+        "#287bd1",
+        "#00c878",
+        "#ffd43b",
+        "#ff6b6b",
+        "#a66cff",
+        "#00c8e8",
+        "#ff9f43"
+    ];
+
+    for (let i = 0; i < 100; i++) {
+
+        const particle = document.createElement("div");
+
+        particle.className = "level-particle";
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 300;
+
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+
+        particle.style.setProperty("--dx", dx + "px");
+        particle.style.setProperty("--dy", dy + "px");
+
+        particle.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        particle.style.animationDelay =
+            Math.random() * .45 + "s";
+
+        particle.style.width =
+            (6 + Math.random() * 9) + "px";
+
+        particle.style.height =
+            (8 + Math.random() * 12) + "px";
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 2500);
+    }
+}
+
+
+/* =========================================
+   ANIMATE SCORE COUNTING
+========================================= */
+
+function animateLevelScore(maximumScore) {
+
+    const levelElement =
+        document.getElementById("levelScoreDisplay");
+
+    const totalElement =
+        document.getElementById("totalScoreDisplay");
+
+    const startTime = performance.now();
+    const duration = 1000;
+
+    function animate(now) {
+
+        const progress = Math.min(
+            (now - startTime) / duration,
+            1
+        );
+
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        const currentLevelScore =
+            Math.round(levelScore * eased);
+
+        const currentTotalScore =
+            Math.round(score * eased);
+
+        levelElement.textContent =
+            currentLevelScore + " / " + maximumScore;
+
+        totalElement.textContent =
+            currentTotalScore;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+
+/* =========================================
+   SHOW LEVEL SCORE SUMMARY
+========================================= */
+
+function showLevelResult(levelName, isFinal = false) {
+
+    stopTimer();
+
+    resultIsFinal = isFinal;
+
+    const levelInfo = challengeLevels.find(
+        group => group.level === levelName
+    );
+
+    const maximumScore =
+        levelInfo ? levelInfo.challenges.length * 10 : 0;
+
+    document.getElementById("levelResultTitle").textContent =
+        isFinal
+            ? "GAME COMPLETED!"
+            : levelName + " LEVEL COMPLETED!";
+
+    document.getElementById("levelResultDescription").textContent =
+        isFinal
+            ? "Amazing! You completed all 20 challenges!"
+            : "Excellent work! You completed the " + levelName + " level!";
+
+    document.getElementById("levelScoreDisplay").textContent =
+        "0 / " + maximumScore;
+
+    document.getElementById("totalScoreDisplay").textContent =
+        "0";
+
+    document.getElementById("levelResultButton").textContent =
+        isFinal ? "BACK TO HOME" : "CONTINUE";
+
+    document.getElementById("levelResult").style.display = "flex";
+
+    playCorrectSound();
+
+    showLevelConfetti();
+
+    animateLevelScore(maximumScore);
+}
+
+
+/* =========================================
+   CONTINUE AFTER LEVEL SUMMARY
+========================================= */
+
+function continueAfterLevel() {
+
+    document.getElementById("levelResult").style.display = "none";
+
+    // If the player has completed Hard Level.
+    if (resultIsFinal) {
+        backHome();
+        return;
+    }
+
+    // Reset level score but preserve total score.
+    levelScore = 0;
+
+    if (currentMode === "build") {
+        loadBuildChallenge();
+    } else {
+        loadNameChallenge();
+    }
+}
+
+
+/* =========================================
+   FINISH GAME
+========================================= */
+
+function finishGame() {
+
+    showLevelResult("HARD", true);
+}
+
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+function setFeedback(message, type, elementId) {
+
+    const element = document.getElementById(elementId);
+
+    element.textContent = message;
+    element.className = "feedback";
+
+    if (type) {
+        element.classList.add(type);
+    }
+}
+
+
+/* =========================================
+   SOUND EFFECTS
+========================================= */
+
+function getAudioContext() {
+
+    if (!audioContext) {
+
+        const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) return null;
+
+        audioContext = new AudioContextClass();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    return audioContext;
+}
+
+
+/* CORRECT SOUND */
+
+function playCorrectSound() {
+
+    const context = getAudioContext();
+
+    if (!context) return;
+
+    const start = context.currentTime;
+
+    const notes = [
+        { frequency: 660, time: 0 },
+        { frequency: 880, time: 0.15 },
+        { frequency: 1100, time: 0.30 }
+    ];
+
+    notes.forEach(note => {
+
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            note.frequency,
+            start + note.time
+        );
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            start + note.time
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.16,
+            start + note.time + 0.02
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            start + note.time + 0.18
+        );
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+
+        oscillator.start(start + note.time);
+        oscillator.stop(start + note.time + 0.20);
+    });
+}
+
+
+/* WRONG SOUND */
+
+function playWrongSound() {
+
+    const context = getAudioContext();
+
+    if (!context) return;
+
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+
+    const start = context.currentTime;
+
+    oscillator.type = "sawtooth";
+
+    oscillator.frequency.setValueAtTime(230, start);
+    oscillator.frequency.linearRampToValueAtTime(110, start + 0.35);
+
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(0.13, start + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.42);
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start(start);
+    oscillator.stop(start + 0.45);
+}
+
+
+/* =========================================
+   REGULAR CONFETTI
+========================================= */
+
+function showConfetti() {
+
+    const confettiColors = [
+        "#21c66b",
+        "#39a1ff",
+        "#ffd43b",
+        "#ff6b6b",
+        "#a66cff"
+    ];
+
+    for (let i = 0; i < 35; i++) {
+
+        const piece = document.createElement("div");
+
+        piece.className = "confetti-piece";
+
+        piece.style.left = Math.random() * 100 + "vw";
+
+        piece.style.background =
+            confettiColors[
+                Math.floor(Math.random() * confettiColors.length)
+            ];
+
+        piece.style.animationDelay =
+            Math.random() * 0.35 + "s";
+
+        piece.style.transform =
+            "rotate(" + Math.random() * 360 + "deg)";
+
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 2200);
+    }
+}
+
+
+/* =========================================
+   SCORE
+========================================= */
+
+function updateScore() {
+
+    document.getElementById("scoreDisplay").textContent =
+        score;
+
+    localStorage.setItem("alkaquestScore", score);
+}
+
+
+/* =========================================
+   BACK HOME
+========================================= */
+
+function backHome() {
+
+    clearTimeout(nextTimer);
+    stopTimer();
+
+    currentMode = "";
+    isRotating = false;
+    roundFinished = false;
+
+    document.getElementById("levelResult").style.display = "none";
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("homeScreen").style.display = "flex";
+
+    setActiveGroup(null);
+}
+
+
+/* =========================================
+   START GAME
+========================================= */
+
+updateScore();
+initialize3D();
+
+</script>
+
+</body>
+</html>
